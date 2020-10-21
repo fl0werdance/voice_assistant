@@ -5,6 +5,7 @@ import os
 from io import BytesIO
 from pydub import AudioSegment
 from pydub.playback import play
+import requests
 
 class Assistant(object):
     def __init__(self):
@@ -37,10 +38,11 @@ if __name__ == '__main__':
     assistant = Assistant()
     command = assistant.listen()
     print(command)
+    print(command[1], command[2])
     if command[0].lower() == "google":
         assistant.google_search()
     elif command[0].lower() == "wikipedia":
-        search_term = command[1] + command[2]
-        assistant.wiki_search(search_term)
+        query = command[1] + " " + command[2]
+        assistant.wiki_search(query)
     else:
         print("feature not yet supported")
