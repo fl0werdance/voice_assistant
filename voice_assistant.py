@@ -28,7 +28,7 @@ class Assistant(object):
         print(json.dumps(res, indent=4))
 
     def wiki_search(self, query):
-        res = wikipedia.page(query).content[0:195]
+        res = wikipedia.summary(query, sentences=2)
         os.system("clear")
         mp3 = BytesIO()
         tts = gTTS(text=res, lang='en', slow=False)
