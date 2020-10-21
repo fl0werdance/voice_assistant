@@ -1,0 +1,24 @@
+from gtts import gTTS
+import speech_recognition as sr
+import wikipedia
+import os
+from io import BytesIO
+from pydub import AudioSegment
+from pydub.playback import play
+
+class Assistant(object):
+    def __init__(self):
+        self.recognizer = sr.Recognizer()
+        self.mic = sr.Microphone()
+
+    def listen(self):
+        with self.mic as source:
+            audio = self.recognizer.listen(source)
+
+    def google_search():
+        pass
+
+    def wiki_search():
+        pass
+
+assistant = Assistant()
