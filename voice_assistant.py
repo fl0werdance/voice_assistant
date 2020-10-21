@@ -5,9 +5,7 @@ import os
 from io import BytesIO
 from pydub import AudioSegment
 from pydub.playback import play
-import requests
-from bs4 import BeautifulSoup
-# from googlesearch import search
+from googleapiclient.discovery import build
 from secrets import MY_API_KEY, SEARCH_ENGINE_ID
 
 class Assistant(object):
@@ -23,18 +21,9 @@ class Assistant(object):
         return voice_input
 
     def google_search(self, query):
-        url = f"https://google.com/search?q={query}"
-        resp = requests.get(url)
-        if resp.status_code == 200:
-            soup = BeautifulSoup(resp.content, "html.parser")
-        results = []
-        for g in soup.find_all('h3', class_='r'):
-            anchors = g.find_all('a')
-            link = g.find('a')['href']
-            text = g.find('a').text.strip()
-            result = {'text': text, 'link': link}
-            results.append(result)
-        # print(search(query))
+        service = build("customsearch", "v1", developerKey=MY_API_KEY)
+        res = service.cse().list(q=query, cx=SEARCH_ENGINE_ID).execute()
+        print(res)
 
     def wiki_search(self, query):
         res = wikipedia.page(query).content[0:195]
@@ -52,7 +41,7 @@ if __name__ == '__main__':
     assistant = Assistant()
     command = assistant.listen()
     if command[0].lower() == "google":
-        query = command[1] + "+" + command[2]
+        query = command[1] + " " + command[2]
         assistant.google_search(query.lower())
     elif command[0].lower() == "wikipedia":
         query = command[1] + " " + command[2]
