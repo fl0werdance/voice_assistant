@@ -19,11 +19,11 @@ class Assistant(object):
         voice_input = voice_input.split(" ")
         return voice_input
 
-    def google_search(self):
-        print("google search")
+    def google_search(self, query):
+        print(query)
 
-    def wiki_search(self, search_term):
-        res = wikipedia.page(search_term).content[0:195]
+    def wiki_search(self, query):
+        res = wikipedia.page(query).content[0:195]
         os.system("clear")
         mp3 = BytesIO()
         tts = gTTS(text=res, lang='en', slow=False)
@@ -37,10 +37,9 @@ class Assistant(object):
 if __name__ == '__main__':
     assistant = Assistant()
     command = assistant.listen()
-    print(command)
-    print(command[1], command[2])
     if command[0].lower() == "google":
-        assistant.google_search()
+        query = command[1] + "+" + command[2]
+        assistant.google_search(query.lower())
     elif command[0].lower() == "wikipedia":
         query = command[1] + " " + command[2]
         assistant.wiki_search(query)
