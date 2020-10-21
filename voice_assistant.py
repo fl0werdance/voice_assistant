@@ -6,6 +6,8 @@ from io import BytesIO
 from pydub import AudioSegment
 from pydub.playback import play
 import requests
+from bs4 import BeautifulSoup
+# from googlesearch import search
 
 class Assistant(object):
     def __init__(self):
@@ -20,7 +22,18 @@ class Assistant(object):
         return voice_input
 
     def google_search(self, query):
-        print(query)
+        url = f"https://google.com/search?q={query}"
+        resp = requests.get(url)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.content, "html.parser")
+        results = []
+        for g in soup.find_all('h3', class_='r'):
+            anchors = g.find_all('a')
+            link = g.find('a')['href']
+            text = g.find('a').text.strip()
+            result = {'text': text, 'link': link}
+            results.append(result)
+        # print(search(query))
 
     def wiki_search(self, query):
         res = wikipedia.page(query).content[0:195]
