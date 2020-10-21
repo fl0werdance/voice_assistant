@@ -8,6 +8,7 @@ from pydub.playback import play
 import requests
 from bs4 import BeautifulSoup
 # from googlesearch import search
+from secrets import MY_API_KEY, SEARCH_ENGINE_ID
 
 class Assistant(object):
     def __init__(self):
