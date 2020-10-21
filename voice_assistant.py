@@ -15,6 +15,7 @@ class Assistant(object):
         self.mic = sr.Microphone()
 
     def listen(self):
+        print("Assistant is listening...")
         with self.mic as source:
             audio = self.recognizer.listen(source)
         voice_input = self.recognizer.recognize_google(audio)
