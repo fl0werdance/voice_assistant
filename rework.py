@@ -7,23 +7,21 @@ from pydub import AudioSegment
 from pydub.playback import play
 
 class Assistant(object):
-    def __init__(self, audio=None):
+    def __init__(self):
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
-        self.audio = audio
 
     def listen(self):
         with self.mic as source:
-            self.audio = self.recognizer.listen(source)
-            self.wiki_search()
+            audio = self.recognizer.listen(source)
+        voice_input = self.recognizer.recognize_google(audio)
+        voice_input = voice_input.split(" ")
+        return voice_input
 
-    def google_search():
-        pass
+    def google_search(self):
+        print("google search")
 
-    def wiki_search(self):
-        voice_input = self.recognizer.recognize_google(self.audio)
-        voice_input = voice_input.split("search for")
-        search_term = voice_input[1].strip(" ")
+    def wiki_search(self, search_term):
         res = wikipedia.page(search_term).content[0:195]
         os.system("clear")
         mp3 = BytesIO()
@@ -37,4 +35,12 @@ class Assistant(object):
 
 if __name__ == '__main__':
     assistant = Assistant()
-    assistant.listen()
+    command = assistant.listen()
+    print(command)
+    if command[0].lower() == "google":
+        assistant.google_search()
+    elif command[0].lower() == "wikipedia":
+        search_term = command[1] + command[2]
+        assistant.wiki_search(search_term)
+    else:
+        print("feature not yet supported")
