@@ -1,4 +1,4 @@
-# outdated, this was just a test
+# outdated, this was just a test OK
 
 from gtts import gTTS
 import speech_recognition as sr
