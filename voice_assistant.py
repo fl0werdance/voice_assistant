@@ -7,6 +7,7 @@ from pydub import AudioSegment
 from pydub.playback import play
 from googleapiclient.discovery import build
 from secrets import MY_API_KEY, SEARCH_ENGINE_ID
+import json
 
 class Assistant(object):
     def __init__(self):
@@ -23,7 +24,7 @@ class Assistant(object):
     def google_search(self, query):
         service = build("customsearch", "v1", developerKey=MY_API_KEY)
         res = service.cse().list(q=query, cx=SEARCH_ENGINE_ID).execute()
-        print(res)
+        print(json.dumps(res, indent=4))
 
     def wiki_search(self, query):
         res = wikipedia.page(query).content[0:195]
