@@ -1,3 +1,5 @@
+# outdated, this was just a test
+
 from gtts import gTTS
 import speech_recognition as sr
 import wikipedia
