@@ -25,7 +25,9 @@ class Assistant(object):
     def google_search(self, query):
         service = build("customsearch", "v1", developerKey=MY_API_KEY)
         res = service.cse().list(q=query, cx=SEARCH_ENGINE_ID).execute()
-        print(json.dumps(res, indent=4))
+        for i in range(0, len(res['items']) - 1):
+            item = {'title': res['items'][i]['title'], 'link': res['items'][i]['link']}
+            print(item['title'] + " " + item['link'])
 
     def wiki_search(self, query):
         res = wikipedia.summary(query, sentences=2)
