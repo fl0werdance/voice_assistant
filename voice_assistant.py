@@ -8,6 +8,7 @@ from pydub.playback import play
 from googleapiclient.discovery import build
 from secrets import MY_API_KEY, SEARCH_ENGINE_ID
 import json
+import subprocess
 
 class Assistant(object):
     def __init__(self):
@@ -19,7 +20,7 @@ class Assistant(object):
         with self.mic as source:
             audio = self.recognizer.listen(source)
         voice_input = self.recognizer.recognize_google(audio)
-        voice_input = voice_input.split(" ")
+        voice_input = voice_input.split(" ", 1)
         return voice_input
 
     def google_search(self, query):
@@ -40,15 +41,21 @@ class Assistant(object):
         print(res)
         play(sound)
 
+    def open_app(self, query):
+        subprocess.Popen(query)
+
 
 if __name__ == '__main__':
     assistant = Assistant()
     command = assistant.listen()
     if command[0].lower() == "google":
-        query = command[1] + " " + command[2]
+        query = command[1]
         assistant.google_search(query.lower())
     elif command[0].lower() == "wikipedia":
-        query = command[1] + " " + command[2]
+        query = command[1]
         assistant.wiki_search(query)
+    elif command[0].lower() == "open":
+        query = command[1].lower()
+        assistant.open_app(query)
     else:
         print("feature not yet supported")
