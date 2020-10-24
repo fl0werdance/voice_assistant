@@ -6,4 +6,4 @@ How the command should look like:
 
 If you want to perform Wikipedia search say: "Wikipedia {First Name} {Second Name}".
 
-Google search not yet implemented.
+If you want to perform Google search say: "Google {First Name} {Second Name}".
