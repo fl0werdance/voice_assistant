@@ -1,4 +1,4 @@
-# voice_assistant
+# Python Voice Assistant
 
 So now it can search on Wikipedia, Google and open some apps. Cool.
 
