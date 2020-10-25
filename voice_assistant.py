@@ -29,6 +29,13 @@ class Assistant(object):
         for i in range(0, len(res['items']) - 1):
             item = {'title': res['items'][i]['title'], 'link': res['items'][i]['link']}
             print(item['title'] + " " + item['link'])
+        mp3 = BytesIO()
+        answer = f"Google results for {query}"
+        tts = gTTS(text=answer, lang='en', slow=False)
+        tts.write_to_fp(mp3)
+        mp3.seek(0)
+        sound = AudioSegment.from_mp3(mp3)
+        play(sound)
 
     def wiki_search(self, query):
         res = wikipedia.summary(query, sentences=2)
