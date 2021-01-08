@@ -11,6 +11,7 @@ import json
 import subprocess
 
 class Assistant(object):
+    # make a main function to handle input
     def __init__(self):
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
@@ -29,6 +30,7 @@ class Assistant(object):
         for i in range(0, len(res['items']) - 1):
             item = {'title': res['items'][i]['title'], 'link': res['items'][i]['link']}
             print(item['title'] + " " + item['link'])
+        # make a function from this play(string)
         mp3 = BytesIO()
         answer = f"Google results for {query}"
         tts = gTTS(text=answer, lang='en', slow=False)
