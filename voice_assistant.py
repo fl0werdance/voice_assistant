@@ -5,8 +5,11 @@ import os
 from io import BytesIO
 from pydub import AudioSegment
 from pydub.playback import play
+
+# use different search module or write my own search function
 from googleapiclient.discovery import build
 from secrets import MY_API_KEY, SEARCH_ENGINE_ID
+
 import json
 import subprocess
 
