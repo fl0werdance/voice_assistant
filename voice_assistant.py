@@ -5,11 +5,7 @@ import os
 from io import BytesIO
 from pydub import AudioSegment
 from pydub.playback import play
-
-# use different search module or write my own search function
-from googleapiclient.discovery import build
-from secrets import MY_API_KEY, SEARCH_ENGINE_ID
-
+from gsearch.googlesearch import search
 import json
 import subprocess
 
@@ -18,6 +14,14 @@ class Assistant(object):
     def __init__(self):
         self.recognizer = sr.Recognizer()
         self.mic = sr.Microphone()
+
+    def speak(self, text):
+        mp3 = BytesIO()
+        tts = gTTS(text=text, lang='en', slow=False)
+        tts.write_to_fp(mp3)
+        mp3.seek(0)
+        sound = AudioSegment.from_mp3(mp3)
+        play(sound)
 
     def listen(self):
         print("Assistant is listening...")
@@ -28,30 +32,16 @@ class Assistant(object):
         return voice_input
 
     def google_search(self, query):
-        service = build("customsearch", "v1", developerKey=MY_API_KEY)
-        res = service.cse().list(q=query, cx=SEARCH_ENGINE_ID).execute()
+        res = search(query)
         for i in range(0, len(res['items']) - 1):
             item = {'title': res['items'][i]['title'], 'link': res['items'][i]['link']}
             print(item['title'] + " " + item['link'])
-        # make a function from this play(string)
-        mp3 = BytesIO()
-        answer = f"Google results for {query}"
-        tts = gTTS(text=answer, lang='en', slow=False)
-        tts.write_to_fp(mp3)
-        mp3.seek(0)
-        sound = AudioSegment.from_mp3(mp3)
-        play(sound)
+        self.speak(f"Google results for {query}")
 
     def wiki_search(self, query):
         res = wikipedia.summary(query, sentences=2)
         os.system("clear")
-        mp3 = BytesIO()
-        tts = gTTS(text=res, lang='en', slow=False)
-        tts.write_to_fp(mp3)
-        mp3.seek(0)
-        sound = AudioSegment.from_mp3(mp3)
-        print(res)
-        play(sound)
+        self.speak(res)
 
     def open_app(self, query):
         subprocess.Popen(query)
