@@ -1,5 +1,7 @@
 # Python Voice Assistant
 
+IT'S NOT WORKING NOW AND I DON'T KNOW HOW TO FIX THIS
+
 So now it can search on Wikipedia, Google and open some apps. Cool.
 
 How the command should look like:
